@@ -12,6 +12,6 @@ Las cartas numéricas suman su valor, las figuras como __"J, Q, K"__ suman 10 y 
 ## Diagramas:
 
 - Diagrama de casos de uso:
-![Casos de uso](out\diagramas\casos_de_uso\casos_de_uso.png)
+![Casos de uso](out/diagramas/casos_de_uso/casos_de_uso.png)
 - Diagrama de clases:
 - Diagrama de secuencia:
