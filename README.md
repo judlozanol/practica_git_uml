@@ -10,6 +10,7 @@ El jugador solo podrá ganar si tine major puntaje que el repartidor pero sin pa
 Las cartas numéricas suman su valor, las figuras como __"J, Q, K"__ suman 10 y el As vale 1 o 11 según convenga, solo puede valer 11 si con este valor no excede el valor de 21, de lo contrario, suma 1.
 
 ## Diagramas:
+
 - Diagrama de casos de uso:
 - Diagrama de clases:
 - Diagrama de secuencia:
