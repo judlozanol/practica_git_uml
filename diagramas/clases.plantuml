@@ -1,0 +1,28 @@
+@startuml
+left to right direction
+
+abstract Carta
+Carta <|-- CartaFrancesa
+Carta <|-- CartaEspanola
+Mazo o-- Carta
+Juego -- Mazo
+
+Juego : iniciar_juego()
+Juego : mostrar_juego()
+Juego : valorar_juego()
+Juego : jugar()
+Juego : Mazo mazo
+Juego : Mazo jugador1
+Juego : Mazo jugador2
+
+Carta : valor
+Carta : pinta
+Carta : obtener_valor()
+Carta : mostrar_carta()
+
+Mazo : Carta[] cartas
+Mazo : mostrar_cartas()
+Mazo : obtener_valor_mazo()
+Mazo : entregar_carta()
+
+@enduml
