@@ -2,8 +2,8 @@
 left to right direction
 
 abstract Carta
-Carta <|-- CartaFrancesa
-Carta <|-- CartaEspanola
+Mazo <|-- MazoFrances
+Mazo <|-- MazoEspanol
 Mazo o-- Carta
 Juego -- Mazo
 
