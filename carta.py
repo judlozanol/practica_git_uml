@@ -6,10 +6,8 @@ class Carta:
 
     def asignar_direccion(self):
         str1=self.pinta
-        for i in [str(x) for x in range(2,11)] + ['A', 'J', 'Q', 'K']:
-            if i==self.valor:
-                str2=i
-        self.direccion=("sprites/"+str1+"/"+str2+".png")
+        str2=self.valor
+        self.direccion=("sprites/"+str1+"/"+str1+str2+".png")
 
     def obtener_valor(self):
         if self.valor == 'A':

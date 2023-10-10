@@ -36,7 +36,7 @@ class MazoFrances(Mazo):
 
 class MazoEspanol(Mazo):
     def __init__(self, jugador=False):
-        self.pintas = ['Bastos', 'Espadas', 'Monedas', 'Copas']
+        self.pintas = ['Bastos', 'Espadas', 'Oros', 'Copas']
         super().__init__(jugador)
 
 if __name__ == '__main__':
