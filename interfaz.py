@@ -1,6 +1,7 @@
 from tkinter import *
 from functools import partial
-from PIL import ImageTk, Image
+from PIL import ImageTk
+import PIL.Image
 from mazo import *
 class AppVentiuna:
     def __init__(self):
@@ -51,14 +52,14 @@ class AppVentiuna:
     def entregar_carta(self, mazo):
         if mazo==self.jugador:
             self.jugador.cartas.append(self.baraja.entregar_carta())
-            image =Image.open(self.jugador.cartas[self.iteracionJugador].direccion)
-            image = image.resize((75,100), Image.ANTIALIAS)
+            image =PIL.Image.open(self.jugador.cartas[self.iteracionJugador].direccion)
+            image = image.resize((75,100), PIL.Image.Resampling.LANCZOS)
             self.spriteJugador.append(ImageTk.PhotoImage(image))
             self.iteracionJugador+=1
         elif mazo==self.casa:
             self.casa.cartas.append(self.baraja.entregar_carta())
-            image =Image.open(self.casa.cartas[self.iteracionCasa].direccion)
-            image = image.resize((75,100), Image.ANTIALIAS)
+            image =PIL.Image.open(self.casa.cartas[self.iteracionCasa].direccion)
+            image = image.resize((75,100), PIL.Image.Resampling.LANCZOS)
             self.spriteCasa.append(ImageTk.PhotoImage(image))
             self.iteracionCasa+=1
 
