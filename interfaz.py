@@ -21,6 +21,8 @@ class AppVentiuna:
         self.elegirFrancesa = Button(self.ventana, text="  Mazo Frances  ", fg="black",font=(self.fuente,20), command=self.elegir_mazo_frances)
         self.pedirCarta =Button(self.ventana, text="  Pedir Carta  ", fg="black",font=(self.fuente,20), command=self.pedir_carta)
         self.plantar =Button(self.ventana, text="  Plantarse  ", fg="black",font=(self.fuente,20), command=self.plantarse)
+        self.siguienteCasa=Button(self.ventana, text="  Siguiente  ", fg="black",font=(self.fuente,20), command=self.sig_casa)
+        self.saltarCasa=Button(self.ventana, text="  Saltar  ", fg="black",font=(self.fuente,20), command=self.skip)
         self.tryAgain =Button(self.ventana, text="  Jugar de Nuevo  ", fg="black",font=(self.fuente,20), command=self.inicio_programa)
 
         self.spriteBaraja=PhotoImage(file="sprites/baraja.png")
@@ -41,6 +43,37 @@ class AppVentiuna:
         self.puntuacionJugador.place(x=450,y=225)
         self.elegirEspanola.place(x=250,y=425)
         self.elegirFrancesa.place(x=550,y=425)
+
+    def reinicio_condiciones(self):
+        self.juegoPerdido=False
+        self.juegoTerminado=False
+        self.rondaJugador=True
+        self.posicionesJugador=[]
+        self.posicionesCasa=[]
+        self.iteracionJugador=0
+        self.iteracionCasa=0
+        self.spriteJugador=[]
+        self.spriteCasa=[]
+        self.labelsJugador=[]
+        self.labelsCasa=[]
+    
+    def elegir_mazo_espanol(self):
+        self.elegirEspanola.place_forget()
+        self.elegirFrancesa.place_forget()
+        self.baraja= MazoEspanol()
+        self.iniciarJuego.place(x=450,y=425)
+
+    def elegir_mazo_frances(self):
+        self.elegirEspanola.place_forget()
+        self.elegirFrancesa.place_forget()
+        self.baraja= MazoFrances()
+        self.iniciarJuego.place(x=450,y=425)
+
+    def borrar_imagenes_cartas(self):
+        for i in range(self.iteracionCasa):
+            self.labelsCasa[i].destroy()
+        for i in range(self.iteracionJugador):
+            self.labelsJugador[i].destroy()
 
     def obtener_posicion(self, mazo):
         if mazo==self.jugador:
@@ -75,12 +108,6 @@ class AppVentiuna:
             y_l=self.posicionesCasa[self.iteracionCasa][1]
             self.labelsCasa[self.iteracionCasa].place(x=x_l,y=y_l)
 
-    def borrar_imagenes_cartas(self):
-        for i in range(self.iteracionCasa):
-            self.labelsCasa[i].destroy()
-        for i in range(self.iteracionJugador):
-            self.labelsJugador[i].destroy()
-
     def entregar_carta(self, mazo):
         if mazo==self.jugador:
             self.jugador.cartas.append(self.baraja.entregar_carta())
@@ -96,61 +123,70 @@ class AppVentiuna:
             self.spriteCasa.append(ImageTk.PhotoImage(image))
             self.colocar_carta(mazo)
             self.iteracionCasa+=1
-
-    def elegir_mazo_espanol(self):
-        self.elegirEspanola.place_forget()
-        self.elegirFrancesa.place_forget()
-        self.baraja= MazoEspanol()
-        self.iniciarJuego.place(x=450,y=425)
-
-    def elegir_mazo_frances(self):
-        self.elegirEspanola.place_forget()
-        self.elegirFrancesa.place_forget()
-        self.baraja= MazoFrances()
-        self.iniciarJuego.place(x=450,y=425)
     
     def actualizar_puntuaciones(self):
         self.puntuacionCasa.config(text="Puntuación: "+ str(self.casa.obtener_valor_mazo()))
         self.puntuacionJugador.config(text="Puntuación: "+ str(self.jugador.obtener_valor_mazo()))
 
-    def reinicio_condiciones(self):
-        self.posicionesJugador=[]
-        self.posicionesCasa=[]
-        self.iteracionJugador=0
-        self.iteracionCasa=0
-        self.spriteJugador=[]
-        self.spriteCasa=[]
-        self.labelsJugador=[]
-        self.labelsCasa=[]
-
     def valorar_juego(self):
         valor_casa = self.casa.obtener_valor_mazo()
         valor_jugador = self.jugador.obtener_valor_mazo()
+
         if valor_jugador > 21:
+            self.juegoPerdido=True
+            self.juegoTerminado=True
+        else: 
+            if valor_casa >= valor_jugador and valor_casa<22 and self.rondaJugador==False:
+                self.juegoPerdido=True
+                self.juegoTerminado=True
+            elif valor_casa > 21:
+                self.juegoTerminado=True
+
+        if self.juegoTerminado:
             self.pedirCarta.place_forget()
             self.plantar.place_forget()
-            messagebox.showinfo("La casa gana", "Usted ha exedido el limite de 21. Mejor suerte a la proxima")
+            self.labelBaraja.place_forget()
+            self.siguienteCasa.place_forget()
+            self.saltarCasa.place_forget()
+            if self.juegoPerdido:
+                messagebox.showinfo("La casa gana", "La casa gana. Mejor suerte a la proxima")
+            else:
+                messagebox.showinfo("El jugador gana", "El jugador gana. ¡Felicidades!")
             self.tryAgain.place(x=450,y=425)
-            
-        
-        if valor_jugador > valor_casa and valor_jugador <= 21:
-            self.juegoPerdido=False
-            self.juegoTerminado=True
-        elif valor_jugador <= 21 and valor_casa > 21:
-            print("Jugador gana")
-        elif valor_casa <= 21:
-            print("Casa gana")
 
     def pedir_carta(self):
         self.entregar_carta(self.jugador)
         self.actualizar_puntuaciones()
         self.valorar_juego()
+
     def plantarse(self):
-        pass
+        self.pedirCarta.place_forget()
+        self.plantar.place_forget()
+        self.labelBaraja.place(x=50,y=75)
+        self.siguienteCasa.place(x=250,y=425)
+        self.saltarCasa.place(x=550,y=425)
+        self.rondaJugador=False
+        self.valorar_juego()
+
+    def sig_casa(self):
+        self.valorar_juego()
+        if self.juegoPerdido==False:
+            self.entregar_carta(self.casa)
+        self.actualizar_puntuaciones()
+        self.valorar_juego()
+        
+    def skip(self):
+        while self.juegoTerminado==False:
+            self.valorar_juego()
+            if self.juegoTerminado==False:
+                self.entregar_carta(self.casa)
+                self.actualizar_puntuaciones()
+            
     def iniciar_juego(self):
         self.iniciarJuego.place_forget()
         self.pedirCarta.place(x=250,y=425)
         self.plantar.place(x=550,y=425)
+        self.labelBaraja.place(x=50,y=275)
 
         self.casa = Mazo(True)
         self.jugador = Mazo(True)
@@ -170,6 +206,8 @@ class AppVentiuna:
         self.inicio_programa()
         
         self.ventana.mainloop()
+        
+
         
 if __name__=="__main__":
     j= AppVentiuna()
