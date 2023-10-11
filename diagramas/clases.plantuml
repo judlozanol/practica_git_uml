@@ -17,8 +17,10 @@ Juego : Mazo jugador2
 
 Carta : valor
 Carta : pinta
+Carta : direccion
 Carta : obtener_valor()
 Carta : mostrar_carta()
+Carta : asignar_direccion()
 
 Mazo : Carta[] cartas
 Mazo : mostrar_cartas()
