@@ -1,5 +1,4 @@
 from tkinter import *
-from functools import partial
 from PIL import ImageTk
 import PIL.Image
 from tkinter import messagebox
