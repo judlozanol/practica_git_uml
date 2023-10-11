@@ -22,6 +22,8 @@ class AppVentiuna:
         self.spriteBaraja=PhotoImage(file="sprites/baraja.png")
         self.labelBaraja= Label(self.ventana, image=self.spriteBaraja)
 
+        self.reinicio_condiciones()
+
     def inicio_programa(self):
         self.puntuacionCasa.config(text="Puntuación: ")
         self.puntuacionJugador.config(text="Puntuación: ")
@@ -66,6 +68,12 @@ class AppVentiuna:
             x_l=self.posicionesCasa[self.iteracionCasa][0]
             y_l=self.posicionesCasa[self.iteracionCasa][1]
             self.labelsCasa[self.iteracionCasa].place(x=x_l,y=y_l)
+            
+    def borrar_imagenes_cartas(self):
+        for i in range(self.iteracionCasa):
+            self.labelsCasa[i].destroy()
+        for i in range(self.iteracionJugador):
+            self.labelsJugador[i].destroy()
 
     def entregar_carta(self, mazo):
         if mazo==self.jugador:
@@ -99,13 +107,7 @@ class AppVentiuna:
         self.puntuacionCasa.config(text="Puntuación: "+ str(self.casa.obtener_valor_mazo()))
         self.puntuacionJugador.config(text="Puntuación: "+ str(self.jugador.obtener_valor_mazo()))
 
-    def iniciar_juego(self):
-        self.iniciarJuego.destroy()
-
-        self.casa = Mazo(True)
-        self.jugador = Mazo(True)
-
-    
+    def reinicio_condiciones(self):
         self.posicionesJugador=[]
         self.posicionesCasa=[]
         self.iteracionJugador=0
@@ -115,12 +117,18 @@ class AppVentiuna:
         self.labelsJugador=[]
         self.labelsCasa=[]
 
+    def iniciar_juego(self):
+        self.iniciarJuego.destroy()
+
+        self.casa = Mazo(True)
+        self.jugador = Mazo(True)
+
+        self.reinicio_condiciones()
+        
         for i in range(2):
             self.entregar_carta(self.casa)
             self.entregar_carta(self.jugador)
         self.actualizar_puntuaciones()
-
-        #self.ventana.after(1000,partial(objeto.place ,x=x_act,y=y_act))
 
     def ejecutar(self):
         self.ventana.geometry("1000x500")
